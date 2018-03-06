@@ -36,7 +36,7 @@ met.signif <- data.frame(compound = names(met[35:746]),
                            t <- t.test(x ~ mrd, data = met, na.rm = TRUE)
                            t <- t$p.value}),
                      
-                     mrd.p.value.kruskal = 
+                     mrd.pvalue.kruskal = 
                        
                        apply(met[,35:746], 2, function(x){
                            k <- kruskal.test(x ~ mrd, data = met)
