@@ -1,141 +1,94 @@
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
-#' 2017.06.14.
+#' 2018.06.03.
 #' 
-#' We know that for some of the less commonly detected compounds, t tests do not show 
-#' any statistical significance despite large fold changes.  For an even smaller 
-#' number of compounds, the significance of the findings can be increased by computing 
-#' a dummy variable, which equals 1 if the compound was detected and 0 if it was not.
+#' Generate univariate p-values for metabolites in connection with MRD and relapse in the 
+#' newest dataset with N=99 subjects and more recent endpoints.
 #' 
-#' Split the compounds into two camps: thsoe detected in more than 50 samples, and those
-#' detected in 50 or less.
+#' P-values will be computed using Student's t-test and Kruskal-Wallis test.
 #' 
-#' For compounds detected in > 50 samples, compute p value by t test.
-#' 
-#' For compounds detected in =< samples, dummy code and compute p value by Fisher's 
-#' exact test.
-#' 
-#' Bind all compounds back into a single dataset and re-do the Volcano plots.
+#' Many of the previous tasks in this script, e.g. filtering out compounds detected in 
+#' just a single sample, have already been accomplished and have been removed.
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
 
-#' Gives us the number of NAs.
-load("Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/Expanded datasets/metabolomics.compounds.expanded.info.v20170614.rdata")
-
-#' For the metabolites we want to treat continuously.
-load("Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/metabolomics.relapse.v20170612.2.rdata")
-
-#' For the metabolites we want to treat categorically.
-load("Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/metabolites.original.scale.v20170531.1.rdata")
-
-#'---------------------------------------------------------------------------------------
-#'---------------------------------------------------------------------------------------
-#' Cateogrical compounds.
-#'---------------------------------------------------------------------------------------
-#'---------------------------------------------------------------------------------------
-
-#' It's missing outcome data.
-met.orig <- left_join(metab.orig,
-                      
-                      select(met, id, mrd, relapse),
-                      
-                      by= 'id') 
-
-#' It problematically contains some drug metabolites that are missing in 99 samples.
-met.orig <- select(met.orig, -`2-phosphoglycerate`, -`gabapentin`, -`hydroquinone beta-D-glucopyranoside`,
-                   -`hydroxypioglitazone (M-IV)`, -`dehydrolithocholate`, -`ibuprofen acyl glucuronide`,
-                   -`pantoprazole `, -`pioglitazone`, -`quetiapine`, -`X - 24585`)
 
 
-met.orig <- met.orig[,c(1,969,970,2:968)]
+# Generate p values -------------------------------------------------------
 
-save(met.orig, file = 'Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/metabolomics.compounds.original.scale.v20170614.2.rdata')
+setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/')
+load('./Datasets/metabolomics.relapse.v20180306.1.rdata')
 
-#' Exlucde compounds missing in exactly 99 patients.
-metabolite.annotations <- filter(metabolite.annotations, na.counts < 99)
-#' A vector of columns we wish to keep.
-missing50 <- subset(metabolite.annotations, na.counts >= 50)
-missing50 <- c('id','mrd', 'relapse', missing50$compound)
+#' Generates p-values for each compound and each endpoint according to 
+#' one parametric and one non.parametric method.
+#' Also generates fold change data needed for subsequent volcano plots.
+met.signif <- data.frame(compound = names(met[35:746]), 
+                     
+                     fold.change.mrd =                        
+                       
+                       apply(met[,35:746], 2, function(x){
+                           tab <- aggregate(x ~ mrd, data = met, mean)
+                           tab[2,2]/tab[1,2]}),
+                                     
+                     mrd.pvalue.t.test =
+                                     
+                       apply(met[,35:746], 2, function(x){
+                           t <- t.test(x ~ mrd, data = met, na.rm = TRUE)
+                           t <- t$p.value}),
+                     
+                     mrd.p.value.kruskal = 
+                       
+                       apply(met[,35:746], 2, function(x){
+                           k <- kruskal.test(x ~ mrd, data = met)
+                           k <- k$p.value}),
+                     
+                     fold.change.relapse =                        
+                       
+                       apply(met[,35:746], 2, function(x){
+                           tab <- aggregate(x ~ relapse, data = met, mean)
+                           tab[2,2]/tab[1,2]}),
+                       
+                     relapse.pvalue.t.test = 
+                                     
+                         apply(met[,35:746], 2, function(x){
+                           tt <- t.test(x ~ relapse, data = met, na.rm = TRUE)
+                           tt <- tt$p.value}),
+                     
+                     relapse.pvalue.kruskal = 
+                       
+                         apply(met[,35:746], 2, function(x){
+                           k <- kruskal.test(x ~ relapse, data = met)
+                           k <- k$p.value}))
 
-#' A data frame containing measurements on the 178 compounds we will treat categorically.
-test.categorical <- subset(met.orig[,missing50])
+row.names(met.signif) <- 1:712
 
-#' Print a few samples.
-test.categorical[1:10,2:7]
-test.categorical[51:60, 8:15]
+save(met.signif, file = './Datasets/Expanded datasets/metabolomics.compounds.significance.v20180306.1.rdata')
 
-#' A function to recode the exising variable.
-dummyvar <- function(x){
-                          ifelse(is.na(x),0,1)
-                       }
+rm(met.signif, met); gc()
 
-#' Apply across the metabolite columns.
-test.categorical[,4:181] <- apply(test.categorical[,4:181], 2, dummyvar)
 
-#' Compute Fisher's exact test p values for dummy coded compounds.
-categorical.compounds <- data.frame(compound = as.character(missing50[4:181]),
-                                 
-                                    mrd.pvalue = apply(test.categorical[,4:181], 2, function(x){
-                                   
-                                                  f <- with(test.categorical, fisher.test(x, mrd))
-                                                  f <- f$p.value}),
-                                 
-                                    relapse.pvalue = apply(test.categorical[,4:181], 2, function(x){
-                                   
-                                          ff <- with(test.categorical, fisher.test(x, relapse))
-                                          ff <- ff$p.value}))
 
-#'---------------------------------------------------------------------------------------
-#'---------------------------------------------------------------------------------------
-#' Continuous compounds.
-#'---------------------------------------------------------------------------------------
-#'---------------------------------------------------------------------------------------
+# Merge with compound metadata --------------------------------------------
 
-#' A vector of columns we wish to keep.
-present50 <- subset(metabolite.annotations, na.counts < 50)
-present50 <- c('id','mrd','relapse',present50$compound)
+require(dplyr)
 
-#' Should only contain id, MRD and relapse.
-#' ...Which is exactly what it contains.
-print(intersect(missing50, present50))
+#' Certain useful information on biological pathways and missingness was
+#' previously compiled.  Join to new significance measures data frame.
+setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/')
+load('./Datasets/Expanded datasets/metabolomics.compounds.expanded.info.v20170803.rdata')
+load('./Datasets/Expanded datasets/metabolomics.compounds.significance.v20180306.1.rdata')
 
-#' Remove unwanted columns.
-test.continuous <- subset(met[,present50])
+met.signif <- left_join(met.signif,
+                        select(metabolite.annotations, compound, super.pathway, sub.pathway, na.counts, KEGG, HMDB),
+                        by = 'compound')
 
-continuous.compounds <- data.frame(compound = as.character(present50[4:792]), 
-                                  
-                                  mrd.pvalue =
-                                    
-                                    apply(test.continuous[,c(4:792)], 2, function(x){
-                                      
-                                      t <- t.test(x ~ mrd, data = test.continuous, na.rm = TRUE)
-                                      t <- t$p.value}),
-                                  
-                                  relapse.pvalue = 
-                                    
-                                    apply(test.continuous[,c(4:792)], 2, function(x){
-                                      
-                                      tt <- t.test(x ~ relapse, data = test.continuous, na.rm = TRUE)
-                                      tt <- tt$p.value}))
+save(met.signif, file = './Datasets/Expanded datasets/metabolomics.compounds.significance.v20180306.2.rdata')
 
-#' Put them back together.
-p.values.split.applied <- rbind(continuous.compounds, categorical.compounds)
+rm(met.signif, metabolite.annotations); gc()
 
-#' Add the mean ratios we computed previously.
 
-p.values.split.applied <- left_join(p.values.split.applied,
-                                    
-                                    select(met.multiob.pvalues, compound, ratio.of.means.mrd, ratio.of.means.relapse, na.counts),
-                                    
-                                    by = 'compound')
 
-#' A flag for method used to obtain p value.
-p.values.split.applied$method <- as.character(ifelse(p.values.split.applied$na.counts >= 50,
-                                                     'p-value by Chi Squared test',
-                                                     'p-value by welch two-sample t test'))
-
-save(p.values.split.applied, 
-     file = 'Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/p.values.and.mean.ratios.split.method.rdata')
+# Random old code destined for deprecation --------------------------------
 
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
