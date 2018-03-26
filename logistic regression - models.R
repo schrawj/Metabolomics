@@ -13,8 +13,8 @@ setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/')
 load('./Datasets/metabolomics.relapse.v20180306.1.rdata')
 
 #' For reference: lists of the selected metabolites for each outcome.
-mrd.metabs <- c('pyruvate', "`cytidine 5'-diphosphocholine`", '`1-arachidonylglycerol (20:4)`')
-relapse.metabs <- c('`1-linoleoyl-GPI (18:2)*`', '`10-nonadecenoate (19:1n9)`', 'valine' , '`gamma-CEHC`')
+#' mrd.metabs <- c('pyruvate', "`cytidine 5'-diphosphocholine`", '`1-arachidonylglycerol (20:4)`')
+#' relapse.metabs <- c('`1-linoleoyl-GPI (18:2)*`', '`10-nonadecenoate (19:1n9)`', 'valine' , '`gamma-CEHC`')
 
 
 
@@ -49,14 +49,14 @@ save(mrd.models, file = './Datasets/Expanded datasets/Logistic regression models
 
 # Relapse models ----------------------------------------------------------
 
-rel.clin.model <- glm(relapse ~ nci.risk + immunophenotype + cyto.two.cat + mrd, data = subset(met, !is.na(met$relapse)), 
+rel.clin.model <- glm(relapse ~ nci.risk + immunophenotype + cyto.two.cat + mrd, data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), 
                       family = binomial(link = 'logit'))
 
 rel.metab.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + `gamma-CEHC`,
-                       data = subset(met, !is.na(met$relapse)), family=binomial(link='logit'))
+                       data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), family=binomial(link='logit'))
 
 rel.combined.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + `gamma-CEHC` + nci.risk + immunophenotype + cyto.two.cat + mrd,
-                          data = subset(met, !is.na(met$relapse)), family=binomial(link='logit'))
+                          data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), family=binomial(link='logit'))
 
 rel.outcomes <- ifelse(as.numeric(rel.clin.model$data$relapse)==2,1,0) #' Vector of outcomes will be the same for all 3 models.
 rel.clin.model.predprob <- rel.clin.model$fitted.values
@@ -67,6 +67,6 @@ rel.models <- list(clin.model = list(model = rel.clin.model, outcomes = rel.outc
                    metab.model = list(model = rel.metab.model, outcomes = rel.outcomes, predicted.probabilities = rel.metab.model.predprob),
                    combined.model = list(model = rel.combined.model, outcomes = rel.outcomes, predicted.probabilities = rel.combined.model.predprob))
 
-save(rel.models, file = './Datasets/Expanded datasets/Logistic regression models/logreg.models.relapse.v20180326.1.rdata')
+save(rel.models, file = './Datasets/Expanded datasets/Logistic regression models/logreg.models.relapse.v20180326.2.rdata')
 
 rm(list = ls()); gc()
