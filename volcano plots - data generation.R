@@ -1,7 +1,5 @@
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
-#' 2018.06.03.
-#' 
 #' Generate univariate p-values for metabolites in connection with MRD and relapse in the 
 #' newest dataset with N=99 subjects and more recent endpoints.
 #' 
