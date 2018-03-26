@@ -37,9 +37,6 @@ mrd.model <- glm(mrd ~ ., data = mrd, family = binomial(link = 'logit'))
 #' 1-arachidonylglycerol (20:4), 2-hydroxyoctanoate and phsophate.
 mrd.back <- step(mrd.model)
 
-curated.mrd.model <- glm(mrd ~ pyruvate + `cytidine 5'-diphosphocholine` + `1-arachidonylglycerol (20:4)`,
-                         data = mrd, family=binomial(link='logit'))
-
 
 
 # Choose metabolites: relapse ---------------------------------------------
@@ -57,9 +54,6 @@ rel.model <- glm(relapse ~ ., data = rel, family = binomial(link = 'logit'))
 #' increase upon exclusion - 1-linoleoyl-GPI (18:2*), 
 #' 10-nonadecenoate (19:1n9), valine and gamma-CEHC.
 rel.back <- step(rel.model)
-
-curated.relapse.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + `gamma-CEHC`,
-                             data = rel, family=binomial(link='logit'))
 
 
 
