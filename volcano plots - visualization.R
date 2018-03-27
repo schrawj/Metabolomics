@@ -157,18 +157,31 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
 print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue.kruskal, met.signif$super.pathway) +
         scale_color_discrete('Super pathway') +
 #' Positions for compounds with log2 fold change > 0            
-
-       geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) < 1 & -log10(met.signif$mrd.pvalue.kruskal) > 3.5, compound, ''),
-                            color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = 0.5) +
-        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 1 & -log10(met.signif$mrd.pvalue.kruskal) > 3.5, compound, ''),
-                            color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = 0.1) +
-  
-  
-        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) <0.6 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+       geom_text_repel(aes(label=ifelse(met.signif$compound == 'gamma-carboxyglutamate' | met.signif$compound == '2-keto-3-deoxy-gluconate', compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.1, nudge_y = 0.6) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound %in% c('malate','fumarate','phosphate'), compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.2) +
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >=0 & log2(met.signif$fold.change.mrd) <0.6 
+                                                                      & -log10(met.signif$mrd.pvalue.kruskal) >3 & -log10(met.signif$mrd.pvalue.kruskal) <=3.5, compound, ''),
                             color = super.pathway), cex = 5, nudge_x = -0.2, nudge_y = 0.1, max.iter = 10000) +
-        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) >=0.6 & log2(met.signif$fold.change.mrd) <1.25 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+  
+  
+  
+  
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >=0.6 & log2(met.signif$fold.change.mrd) <1.25 
+                                                                      & -log10(met.signif$mrd.pvalue.kruskal) >3 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
                             color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = -0.5, max.iter = 10000) +
-        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) >=1.25 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+  
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'pyruvate', compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = -0.3, nudge_y = -0.1, max.iter = 10000) +
+  
+  
+  
+  
+  
+  
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >=1.25 
+                                                                      & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
                             color = super.pathway), cex = 5, nudge_x = 0.075, nudge_y = 0.075) +
 #' Positions for compounds with log2 fold change < 0        
         geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) < 0 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
