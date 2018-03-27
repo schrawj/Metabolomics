@@ -157,43 +157,43 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
 print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue.kruskal, met.signif$super.pathway) +
         scale_color_discrete('Super pathway') +
         geom_text_repel(aes(label=ifelse(met.signif$compound == '2-keto-3-deoxy-gluconate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 0.1, nudge_y = 0.6) +
+                            color = super.pathway), cex =7.5, nudge_x = 0.2, nudge_y = 0.6) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'gamma-carboxyglutamate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -1, nudge_y = 0.3) +
+                            color = super.pathway), cex =7.5, nudge_x = -1, nudge_y = 0.3) +
         geom_text_repel(aes(label=ifelse(met.signif$compound %in% c('malate','fumarate','phosphate'), compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 0.2) +
+                            color = super.pathway), cex =7.5, nudge_x = 0.2) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'alanine', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.2) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.2) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'histidine', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.4, nudge_y = -0.3) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.4, nudge_y = -0.3) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'dihydroorotate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 0.75, nudge_y = -1, max.iter = 10000) +
+                            color = super.pathway), cex =7.5, nudge_x = 0.75, nudge_y = -1, max.iter = 10000) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == '4-hydroxy-2-oxoglutaric acid', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 1.5, nudge_y = -0.75, max.iter = 10000) +
+                            color = super.pathway), cex =7.5, nudge_x = 1.6, nudge_y = -0.75, max.iter = 10000) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == '2-hydroxyoctanoate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 1.75, nudge_y = -0.25, max.iter = 10000) +
+                            color = super.pathway), cex =7.5, nudge_x = 1.75, nudge_y = -0.25, max.iter = 10000) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'succinate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.35, nudge_y = 0.35, max.iter = 10000) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.35, nudge_y = 0.35, max.iter = 10000) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'pyruvate', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.2, max.iter = 10000) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.2, max.iter = 10000) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'pyrraline', compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 0.2) +
+                            color = super.pathway), cex =7.5, nudge_x = 0.2) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "cytidine 5'-diphosphocholine", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = 0.075, nudge_y = 0.075) +
+                            color = super.pathway), cex =7.5, nudge_x = 0.075, nudge_y = 0.075) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-oleoyl-GPI ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.5) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.5) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-linoleoyl-GPI ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -2) +
+                            color = super.pathway), cex =7.5, nudge_x = -2) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-palmitoyl-GPI ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -1, nudge_y = -0.2) +
+                            color = super.pathway), cex =7.5, nudge_x = -1, nudge_y = -0.2) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-arachidonoyl-GPI ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.1, nudge_y = 0.25) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.1, nudge_y = 0.25) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-stearoyl-GPI ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.1) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.1) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'acetoacetate', compound, ''),
-                           color = super.pathway), cex =7, nudge_x = -0.1) +
+                           color = super.pathway), cex =7.5, nudge_x = -0.1) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-arachidonylglycerol ", compound, ''),
-                            color = super.pathway), cex =7, nudge_x = -0.5) +
+                            color = super.pathway), cex =7.5, nudge_x = -0.5) +
         geom_vline(aes(xintercept = 0), linetype = 'dotdash') +
         geom_hline(aes(yintercept = 3), linetype = 'dotdash') +
         theme_bw() + 
