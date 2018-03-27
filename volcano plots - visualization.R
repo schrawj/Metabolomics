@@ -127,7 +127,7 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
 print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue.kruskal, met.signif$super.pathway) +
         scale_color_discrete('Super pathway') +
         geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1, compound, ''),
-                            color = super.pathway), cex = 3) +
+                            color = super.pathway), cex = 5, force = 30) +
         geom_vline(aes(xintercept = 0), linetype = 'dotdash') +
         geom_hline(aes(yintercept = 3), linetype = 'dotdash') +
         theme_bw() + 
@@ -149,3 +149,37 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
         xlab('Log2 fold change in plasma from children with subsequent relapse') +
         theme(axis.title.x = element_text(hjust = 0)) +
         theme(axis.title.y = element_blank())) 
+
+
+
+# Endless tweaking of text position ---------------------------------------
+
+print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue.kruskal, met.signif$super.pathway) +
+        scale_color_discrete('Super pathway') +
+#' Positions for compounds with log2 fold change > 0            
+
+       geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) < 1 & -log10(met.signif$mrd.pvalue.kruskal) > 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = 0.5) +
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 1 & -log10(met.signif$mrd.pvalue.kruskal) > 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = 0.1) +
+  
+  
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) <0.6 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = -0.2, nudge_y = 0.1, max.iter = 10000) +
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) >=0.6 & log2(met.signif$fold.change.mrd) <1.25 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.5, nudge_y = -0.5, max.iter = 10000) +
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) >= 0 & log2(met.signif$fold.change.mrd) >=1.25 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = 0.075, nudge_y = 0.075) +
+#' Positions for compounds with log2 fold change < 0        
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) < 0 & -log10(met.signif$mrd.pvalue.kruskal) <= 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = -0.5) +
+        geom_text_repel(aes(label=ifelse(met.signif$mrd.sig.flag == 1 & log2(met.signif$fold.change.mrd) < 0 & -log10(met.signif$mrd.pvalue.kruskal) > 3.5, compound, ''),
+                            color = super.pathway), cex = 5, nudge_x = -0.1, nudge_y = 0.1) +
+        geom_vline(aes(xintercept = 0), linetype = 'dotdash') +
+        geom_hline(aes(yintercept = 3), linetype = 'dotdash') +
+        theme_bw() + 
+        theme(text = element_text(size = 17.5)) +
+        #        ggtitle('Compounds Associated With End-Induction Minimal Residual Disease') +
+        xlab('Log2 fold change in plasma from children with subsequent MRD positivity') +
+        theme(axis.title.x = element_text(hjust = 0)) +
+        ylab('-Log10 p-value (Kruskal-Wallis test)'))
