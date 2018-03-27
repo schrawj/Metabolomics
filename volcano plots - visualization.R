@@ -198,8 +198,50 @@ print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue
         geom_hline(aes(yintercept = 3), linetype = 'dotdash') +
         theme_bw() + 
         theme(text = element_text(size = 17.5)) +
-        #        ggtitle('Compounds Associated With End-Induction Minimal Residual Disease') +
-        xlab('Log2 fold change in plasma from children with subsequent MRD positivity') +
+        theme(axis.title.y = element_blank()) +
+        theme(axis.title.x = element_blank())) 
+
+print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relapse.pvalue.kruskal, met.signif$super.pathway) +
+        scale_color_discrete('Super pathway') +
+        
+        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'valine', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = 0.2, nudge_y = -0.2) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == "13-methylmyristate", compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = -1.5, nudge_y = -0.1) +        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'gamma-CEHC', compound, ''),
+                            color = super.pathway), cex =8.5) +        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'betaine', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = 0.5) +        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'picolinate', compound, ''),
+                            color = super.pathway), cex =8.5) +        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == '1-linoleoyl-GPI ', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = -1, nudge_y = -0.1) +        
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'dopamine sulfate ', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_y = -0.2) +    
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'N-carboxyethylphenylalanine', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = -2) +   
+        geom_text_repel(aes(label=ifelse(met.signif$compound == '10-nonadecenoate ', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = -2, nudge_y = -0.2) +  
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'margarate ', compound, ''),
+                            color = super.pathway), cex =8.5) +  
+        geom_text_repel(aes(label=ifelse(met.signif$compound == "15-methylpalmitate", compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = 0.5) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'palmitoleate ', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = 1.25, nudge_y = 0.1) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'myristate ', compound, ''),
+                            color = super.pathway), cex =8.5, nudge_x = -2, nudge_y = 0.2) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == '10-heptadecenoate ', compound, ''),
+                            color = super.pathway), cex =8.5) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == 'dimethylglycine', compound, ''),
+                            color = super.pathway), cex =8.5) +
+        geom_text_repel(aes(label=ifelse(met.signif$compound == "inosine 5'-monophosphate ", compound, ''),
+                            color = super.pathway), cex =8.5) +
+        
+        geom_vline(aes(xintercept = 0), linetype = 'dotdash') +
+        geom_hline(aes(yintercept = 2.5), linetype = 'dotdash') +
+        theme_bw() + 
+        theme(text = element_text(size = 17.5)) +
         theme(axis.title.x = element_text(hjust = 0)) +
-        ylab('-Log10 p-value (Kruskal-Wallis test)'))
-  
+        theme(axis.title.y = element_blank()) +
+        theme(axis.title.x = element_blank())) 
