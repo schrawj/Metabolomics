@@ -183,7 +183,7 @@ print(volcano.plot(met.signif, met.signif$fold.change.mrd, met.signif$mrd.pvalue
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'pyrraline', compound, ''),
                             color = super.pathway), cex =8.5, nudge_x = 0.2, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "cytidine 5'-diphosphocholine", compound, ''),
-                            color = super.pathway), cex =8.5, nudge_x = 0.075, nudge_y = 0.1, show.legend = FALSE) +
+                            color = super.pathway), cex =8.5, nudge_x = 0.075, nudge_y = 0.2, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-oleoyl-GPI ", compound, ''),
                             color = super.pathway), cex =8.5, nudge_x = -0.5, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "1-linoleoyl-GPI ", compound, ''),
@@ -212,7 +212,7 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
         geom_text_repel(aes(label=ifelse(met.signif$compound == "13-methylmyristate", compound, ''),
                             color = super.pathway), cex =8.5, nudge_x = -1.5, nudge_y = -0.1, show.legend = FALSE) +        
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'gamma-CEHC', compound, ''),
-                            color = super.pathway), cex =8.5, show.legend = FALSE) +        
+                            color = super.pathway), cex =8.5, nudge_x = -1.25, nudge_y = 0.1, show.legend = FALSE) +        
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'betaine', compound, ''),
                             color = super.pathway), cex =8.5, nudge_x = 0.5, show.legend = FALSE) +        
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'picolinate', compound, ''),
@@ -228,7 +228,7 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'margarate ', compound, ''),
                             color = super.pathway), cex =8.5, show.legend = FALSE) +  
         geom_text_repel(aes(label=ifelse(met.signif$compound == "15-methylpalmitate", compound, ''),
-                            color = super.pathway), cex =8.5, nudge_x = 0.5, show.legend = FALSE) +
+                            color = super.pathway), cex =8.5, nudge_x = 1, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'palmitoleate ', compound, ''),
                             color = super.pathway), cex =8.5, nudge_x = 1.25, nudge_y = 0.1, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'myristate ', compound, ''),
@@ -238,7 +238,7 @@ print(volcano.plot(met.signif, met.signif$fold.change.relapse, met.signif$relaps
         geom_text_repel(aes(label=ifelse(met.signif$compound == 'dimethylglycine', compound, ''),
                             color = super.pathway), cex =8.5, show.legend = FALSE) +
         geom_text_repel(aes(label=ifelse(met.signif$compound == "inosine 5'-monophosphate ", compound, ''),
-                            color = super.pathway), cex =8.5, show.legend = FALSE) +
+                            color = super.pathway), cex =8.5, nudge_x = 0.5, show.legend = FALSE) +
         geom_vline(aes(xintercept = 0), linetype = 'dotdash') +
         geom_hline(aes(yintercept = 2.5), linetype = 'dotdash') +
         theme_bw() + 
