@@ -28,11 +28,11 @@ roc.test(rel.roc.objects$clinical, rel.roc.objects$combined) # p=0.03966
 
 # Plots without annotation ------------------------------------------------
 
-plot.roc(mrd.roc.objects$clinical, print.auc = FALSE, max.auc.polygon = TRUE)
+plot.roc(mrd.roc.objects$clinical, print.auc = FALSE, max.auc.polygon = TRUE, cex.lab =1.5, cex.axis = 1.5)
 plot.roc(mrd.roc.objects$metabolite, col = 'blue', add = TRUE)
 plot.roc(mrd.roc.objects$combined, col = 'red', add = TRUE)
 
-plot.roc(rel.roc.objects$clinical, print.auc = FALSE, max.auc.polygon = TRUE)
+plot.roc(rel.roc.objects$clinical, print.auc = FALSE, max.auc.polygon = TRUE, cex.lab = 1.5, cex.axis = 1.5)
 plot.roc(rel.roc.objects$metabolite, col = 'blue', add = TRUE)
 plot.roc(rel.roc.objects$combined, col = 'red', add = TRUE)
 
