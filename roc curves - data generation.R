@@ -9,8 +9,8 @@
 # Prep environment --------------------------------------------------------
 
 setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/')
-load('./Expanded datasets/Logistic regression models/logreg.models.mrd.v20180326.1.rdata')
-load('./Expanded datasets/Logistic regression models/logreg.models.relapse.v20180326.2.rdata')
+load('./Expanded datasets/Logistic regression models/logreg.models.mrd.v20180328.1.rdata')
+load('./Expanded datasets/Logistic regression models/logreg.models.relapse.v20180328.1.rdata')
 
 require(pROC)
 
