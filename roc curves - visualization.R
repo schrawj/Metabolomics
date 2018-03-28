@@ -18,8 +18,8 @@ require(pROC)
 
 # DeLong's test for correlated ROC curves ---------------------------------
 
-roc.test(mrd.roc.objects$clinical, mrd.roc.objects$metabolite) # p=0.08595
-roc.test(mrd.roc.objects$clinical, mrd.roc.objects$combined) # p=0.002202
+roc.test(mrd.roc.objects$clinical, mrd.roc.objects$metabolite) # p=0.08243
+roc.test(mrd.roc.objects$clinical, mrd.roc.objects$combined) # p=0.000374
 
 roc.test(rel.roc.objects$clinical, rel.roc.objects$metabolite) # p=0.4586
 roc.test(rel.roc.objects$clinical, rel.roc.objects$combined) # p=0.03966
