@@ -73,14 +73,3 @@ boxplot(met$`dihomo-linolenate (20:3n3 or n6)` ~ met$relapse,
 points(factor(met$relapse), met$`dihomo-linolenate (20:3n3 or n6)`)
 
 
-
-
-
-
-
-boxplot(met$`behenate (22:0)*` ~ met$relapse, 
-        col = c('gold', 'darkgreen'), 
-        main = 'Behenate (22:0); p=0.05',
-        ylim = c(0, 4))
-points(factor(met$relapse), met$`behenate (22:0)*`)
-
