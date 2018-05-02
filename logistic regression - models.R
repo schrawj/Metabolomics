@@ -5,10 +5,6 @@
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
 
-
-
-# Prep environment --------------------------------------------------------
-
 setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/')
 load('./Datasets/metabolomics.relapse.v20180306.1.rdata')
 
@@ -62,10 +58,10 @@ save(mrd.models, file = './Datasets/Expanded datasets/Logistic regression models
 rel.clin.model <- glm(relapse ~ nci.risk + immunophenotype + cyto.two.cat + mrd, data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), 
                       family = binomial(link = 'logit'))
 
-rel.metab.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + `gamma-CEHC`,
+rel.metab.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + picolinate,
                        data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), family=binomial(link='logit'))
 
-rel.combined.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + `gamma-CEHC` + nci.risk + immunophenotype + cyto.two.cat + mrd,
+rel.combined.model <- glm(relapse ~ `1-linoleoyl-GPI (18:2)*` + `10-nonadecenoate (19:1n9)` + valine + picolinate + nci.risk + immunophenotype + cyto.two.cat + mrd,
                           data = subset(met, !is.na(met$relapse) & !is.na(met$mrd)), family=binomial(link='logit'))
 rel.backselect.model <- step(rel.combined.model)
 
@@ -84,6 +80,7 @@ rel.models <- list(clin.model = list(model = rel.clin.model, outcomes = rel.outc
                                              predicted.probabilities = rel.backselect.model$fitted.values,
                                              backxform.coef = exp(cbind(rel.backselect.model$coefficients, confint(rel.backselect.model, level = 0.95)))))
 
-save(rel.models, file = './Datasets/Expanded datasets/Logistic regression models/logreg.models.relapse.v20180328.1.rdata')
+#' Model outputs feed into the script 'roc curves - data generation'.
+save(rel.models, file = './Datasets/Expanded datasets/Logistic regression models/logreg.models.relapse.v20180426.1.rdata')
 
 rm(list = ls()); gc()

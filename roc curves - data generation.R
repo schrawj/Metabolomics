@@ -4,13 +4,9 @@
 #'---------------------------------------------------------------------------------------
 #'---------------------------------------------------------------------------------------
 
-
-
-# Prep environment --------------------------------------------------------
-
 setwd('Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/')
 load('./Expanded datasets/Logistic regression models/logreg.models.mrd.v20180328.1.rdata')
-load('./Expanded datasets/Logistic regression models/logreg.models.relapse.v20180328.1.rdata')
+load('./Expanded datasets/Logistic regression models/logreg.models.relapse.v20180426.1.rdata')
 
 require(pROC)
 
@@ -36,6 +32,7 @@ rel.roc.combined <- roc(response = rel.models$combined.model$outcomes, predictor
 
 rel.roc.objects <- list(clinical = rel.roc.clin, metabolite = rel.roc.metab, combined = rel.roc.combined)
 
+#' List of roc objects feeds into script 'roc curves - visualization'.
 save(rel.roc.objects, file = './Expanded datasets/ROC objects/rel.roc.objects.rdata')
 
 rm(list = ls()); gc()
