@@ -20,8 +20,6 @@
 #'-------------------------------------------------------------------------
 #'-------------------------------------------------------------------------
 
-#'TODO: Remove children originally DX'd with any condition than ALL.
-
 
 
 # Read in patient lists, remove duplicates, write joined list -------------
@@ -128,6 +126,55 @@ write.xlsx(curated.list, file = 'Y:/Jeremy Schraw/Metabolomics and relapse proje
            row.names = FALSE, append = TRUE, sheetName = 'final', showNA = FALSE)
 
 rm(list = ls()); gc()
+
+
+
+# Check additional new patients against existing --------------------------
+
+#'-------------------------------------------------------------------------
+#'-------------------------------------------------------------------------
+#' 2018.08.09.
+#' 
+#' We are still searching for additional patients in whom to evaluate MRD.
+#' 
+#' Karen forwarded me the 2017 and 2018 leukemia team patient lists so we
+#' can search through them for MRD-positive patients.
+#' 
+#' First check that no patients are duplicated with the original dataset, 
+#' or the joined lists from Olga and Karen.  Then send to Theresa to check
+#' consent status and sample availability.
+#'-------------------------------------------------------------------------
+#'-------------------------------------------------------------------------
+
+require(xlsx); require(dplyr)
+
+#' New patient lists.
+new2017 <- read.xlsx('Y:/Jeremy Schraw/Metabolomics and relapse project/Replication set/Leukemia team patient list_2017.xlsx',
+                     header = TRUE, stringsAsFactors = FALSE, sheetName = '2017', rowIndex = 1:65)
+new2018 <- read.xlsx('Y:/Jeremy Schraw/Metabolomics and relapse project/Replication set/Leukemia team patient list_2018.xlsx',
+                     header = TRUE, stringsAsFactors = FALSE, sheetName = 'all 2018 new patients', rowIndex = 1:23)
+new.patients <- rbind(new2017, new2018)
+
+#' Old patient lists.
+old.patients <- read.xlsx('Y:/Jeremy Schraw/Metabolomics and relapse project/Replication set/olga.and.karen.lists.join.xlsx',
+                          header = TRUE, sheetIndex = 1, rowIndex = 1:109, stringsAsFactors = FALSE)
+load('Y:/Jeremy Schraw/Metabolomics and relapse project/Datasets/Expanded datasets/metabolomics.subjects.expanded.identifiers.rdata')
+
+#' will output any new patients duplicated in previous lists.
+#' There are none, so Theresa can review all 86 new patients.  What fun for her.
+print(semi_join(new.patients, old.patients, by = c('MRN' = 'mrn')))
+print(semi_join(new.patients, metab.clin.expanded.ids, by = 'MRN'))
+
+
+
+
+
+
+
+
+
+
+
 
 # Scratch paper -----------------------------------------------------------
 
